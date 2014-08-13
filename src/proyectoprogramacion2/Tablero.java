@@ -1,5 +1,7 @@
 package proyectoprogramacion2;
 
+import java.util.Scanner;
+
 /**
  * @author EdwinCruz
  */
@@ -8,6 +10,7 @@ public class Tablero {
         static String tablero[][]=new String[8][8];
         static Piezas x=new Peon();
         static Peon z = new Peon();
+        static Scanner lea=new Scanner(System.in);
     public static void main(String[] args) {
         
         INICIAR_ARREGLO();
@@ -65,10 +68,20 @@ public class Tablero {
     public static void mover(int fila, int columna){
         boolean obj = search(fila, columna);
         if(obj==true){
+            //tablero[fila-1][columna-1]=x.InicializarN();
             
-            tablero[fila-2][columna-1]="|__";
-            tablero[fila-1][columna-1]=x.InicializarN();
-            
+        }
+    }
+    
+    public static void seleccionar(int fila, int columna){
+        boolean obj = search(fila, columna);
+        if(obj==false){
+            tablero[fila-2][columna-1]="|__|";
+            System.out.println("Que fila? ");
+            fila = lea.nextInt();
+            System.out.println("Que columna? ");
+            columna = lea.nextInt();
+            mover(fila, columna);
         }
     }
 

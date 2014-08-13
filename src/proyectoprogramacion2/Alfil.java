@@ -4,39 +4,23 @@ package proyectoprogramacion2;
  *
  * @author EdwinCruz
  */
-public abstract class Alfil extends Piezas{
-    int defaultPosB=31;
-    int defaultPosN=38;
+public class Alfil extends Piezas{
+
     @Override
-    public String moverB(int posMover, int posActual){
-        if(posMover!=posActual){
-            if(posMover==1){
-                
-            }
-        }
-        return "AB";
-    }
-    
-    @Override
-    public String comerB(int posMover, int posActual){
-        System.out.println("");
-        return "AB";
-    }
-    
-    @Override
-    public String moverN(int posMover, int posActual){
-        System.out.println("");
-        return "AN";
+    public String mover(int fila, int columna, int turno) {
+        
     }
 
     @Override
-    public String comerN(int posMover, int posActual){
-        System.out.println("");
-        return "AN";
+    public String comer(int fila, int columna, int turno) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void seleccionar(int fila, int columna) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public void String(int posIMover, int posActual){
-        
-    }
+    
     
 }
