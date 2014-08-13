@@ -9,7 +9,7 @@ public class Tablero {
         static Piezas x=new Peon();
         static Peon z = new Peon();
     public static void main(String[] args) {
-        System.out.println("Que pedo? ");
+        
         INICIAR_ARREGLO();
         for (int i = 0; i < tablero[1].length; i++) {
             tablero[1][i]=x.InicializarN();
@@ -65,6 +65,7 @@ public class Tablero {
     public static void mover(int fila, int columna){
         boolean obj = search(fila, columna);
         if(obj==true){
+            tablero[fila-2][columna-1]="|__";
             tablero[fila-1][columna-1]=x.InicializarN();
             
         }
