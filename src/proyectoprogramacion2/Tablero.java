@@ -9,7 +9,7 @@ public class Tablero {
         static Piezas x=new Peon();
         static Peon z = new Peon();
     public static void main(String[] args) {
-        
+        System.out.println("Que pedo? ");
         INICIAR_ARREGLO();
         for (int i = 0; i < tablero[1].length; i++) {
             tablero[1][i]=x.InicializarN();
