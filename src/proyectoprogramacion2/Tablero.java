@@ -10,15 +10,7 @@ public class Tablero {
         static Piezas x=new Peon();
         static Peon z = new Peon();
     public static void main(String[] args) {
-//        System.out.println("1  2  3  4  5  6  7  8    ");
-//        System.out.println("TN CN AN KN QN AN CN TN  8");
-//        System.out.println("PN PN PN PN PN PN PN PN  7");
-//        System.out.println("__ __ __ __ __ __ __ __  6");
-//        System.out.println("__ __ __ __ __ __ __ __  5");
-//        System.out.println("__ __ __ __ __ __ __ __  4");
-//        System.out.println("__ __ __ __ __ __ __ __  3");
-//        System.out.println("PB PB PB PB PB PB PB PB  2");
-//        System.out.println("TB CB AB KB QB AB CB TB  1");;
+
         
         INICIAR_ARREGLO();
         for (int i = 0; i < tablero[1].length; i++) {
