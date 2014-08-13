@@ -65,6 +65,7 @@ public class Tablero {
     public static void mover(int fila, int columna){
         boolean obj = search(fila, columna);
         if(obj==true){
+            
             tablero[fila-2][columna-1]="|__";
             tablero[fila-1][columna-1]=x.InicializarN();
             
