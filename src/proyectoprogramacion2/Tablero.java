@@ -1,5 +1,4 @@
 package proyectoprogramacion2;
-import proyectoprogramacion2.Piezas;
 
 /**
  * @author EdwinCruz
@@ -10,7 +9,6 @@ public class Tablero {
         static Piezas x=new Peon();
         static Peon z = new Peon();
     public static void main(String[] args) {
-
         
         INICIAR_ARREGLO();
         for (int i = 0; i < tablero[1].length; i++) {
