@@ -4,11 +4,15 @@ package proyectoprogramacion2;
  *
  * @author EdwinCruz
  */
-public class Alfil extends Piezas{
 
+public class Alfil extends Piezas{
+    private int fila, columna;
     @Override
-    public String mover(int fila, int columna, int turno) {
-        
+    public String mover(int fil, int col, int turno) {
+        if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
+            return "Al";
+        }
+        return null;
     }
 
     @Override
@@ -18,9 +22,11 @@ public class Alfil extends Piezas{
 
     @Override
     public void seleccionar(int fila, int columna) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.fila=fila;
+        this.columna=columna;
     }
     
+   
     
     
 }

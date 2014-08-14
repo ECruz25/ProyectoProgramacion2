@@ -8,27 +8,9 @@ import java.util.Scanner;
 public class Tablero {
     //static Piezas
         static String tablero[][]=new String[8][8];
-        static Piezas x=new Peon();
-        static Peon z = new Peon();
         static Scanner lea=new Scanner(System.in);
     public static void main(String[] args) {
-        
-        INICIAR_ARREGLO();
-        for (int i = 0; i < tablero[1].length; i++) {
-            tablero[1][i]=x.InicializarN();
-        }
-        
-        for (int i = 0; i < tablero[6].length; i++) {
-            tablero[6][i]=x.InicializarB();
-        }
-        
-        IMPRIMIR_ARREGLO();
-        
-        mover(3, 5);
-        
-        IMPRIMIR_ARREGLO();
-        
-        
+          
         
         
        
@@ -83,6 +65,35 @@ public class Tablero {
             columna = lea.nextInt();
             mover(fila, columna);
         }
+    }
+      //Busquedad diagonal! utilizada para saber si se puede mover el alfil
+    //si, efrente de el no exsiste ningun objeto!
+    //o esa es la intencion xD 
+    //revisar los for!!
+    private static String busquedadD(int fil1, int fil2, int col1, int col2){
+        if((fil1-fil2)<0&&(col1-col2)>0){
+            for (int i = ++fil1; i < fil2; i++) {
+                if(tablero[i][--col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }else if((fil1-fil2)>0&&(col1-col2)>0){
+            for (int i = ++fil1; i < fil2; i++) {
+                if(tablero[i][++col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }else if((fil1-fil2)>0&&(col1-col2)<0){
+            for (int i = --fil1; i<=fil2; i--) {
+                if(tablero[i][++col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }
+        else if((fil1-fil2)<0&&(col1-col2)<0){
+            for (int i = ++fil1; i>=fil2; i++) {
+                if(tablero[i][++col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }
+        return null;
     }
 
 }
