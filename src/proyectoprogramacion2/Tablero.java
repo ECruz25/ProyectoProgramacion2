@@ -10,33 +10,50 @@ public class Tablero {
         static String tablero[][]=new String[8][8];
         static Scanner lea=new Scanner(System.in);
     public static void main(String[] args) {
-          
-        
-        
-       
-////        Reina n=new Reina() {};
-//        
-//        System.out.println(n.moverB(38, 39));
-        
+            iniciarElTablero();
+             imprimirArreglo();
     }
     private static boolean search(int fila,int columna){
-        if(tablero[fila-1][columna-1].equals("|__|")){
+        if(tablero[fila-1][columna-1].equals("|_|")){
             return true;
         }
         return false;
     }
     
     
-    public static void INICIAR_ARREGLO(){
+    public static void iniciarElTablero(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
-                tablero[i][j]="|__|";
+                tablero[i][j]="|_|";
             }
         }
+        for (int i = 0; i < tablero[1].length; i++) {
+            tablero[1][i]="|♟|";        
+        }
+        for (int i = 0; i < tablero[6].length; i++) {
+            tablero[6][i]="|♙|";
+        }
+        tablero[7][0]="|♖|";
+        tablero[7][7]="|♖|";
+        tablero[7][1]="|♘|";
+        tablero[7][6]="|♘|";
+        tablero[7][2]="|♗|";
+        tablero[7][5]="|♗|";
+        tablero[7][3]="|♕|";
+        tablero[7][4]="|♔|";
+        
+        tablero[0][0]="|♜|";
+        tablero[0][7]="|♜|";
+        tablero[0][1]="|♞|";
+        tablero[0][6]="|♞|";
+        tablero[0][2]="|♝|";
+        tablero[0][5]="|♝|";
+        tablero[0][3]="|♛|";
+        tablero[0][4]="|♚|";
     }
     
     
-    public static void IMPRIMIR_ARREGLO(){
+    public static void imprimirArreglo(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
                 System.out.print(tablero[i][j]);

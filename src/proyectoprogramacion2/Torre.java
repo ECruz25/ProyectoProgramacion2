@@ -34,8 +34,8 @@ public class Torre extends Piezas {
     }
     private String getTorre(int turno){
         if(turno==1)
-            return "TB";
-        return "TN";
+            return "|♖|";
+        return "|♜|";
     }
 
     @Override

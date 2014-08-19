@@ -31,12 +31,12 @@ public final class Peon extends Piezas{
         if(columna-1==this.columna||columna+1==this.columna){
             if(turno == 1){
                 if(this.fila>fila){
-                    return "|PB|";
+                    return "|♙|";
                 }
             }
             else{
                 if(this.fila<fila){
-                    return "|PN|";
+                    return "|♟|";
                 }
             }
         }

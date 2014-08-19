@@ -11,18 +11,31 @@ public class Reina extends Piezas{
     private int columna;
     @Override
     public String mover(int fila, int columna, int turno) {
-        return getComverMover(turno);
+        return getComverMover(fila, columna, turno);
     }
     
-    private String getComverMover(int turno){
+    private String getComverMover(int fil, int col, int turno){
+        if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
+            return getDama(turno);
+        }else if(this.fila==fil){
+            if(this.columna>col||this.columna<col)
+                return getDama(turno);
+        }else if(this.columna==col){
+            if(this.fila>fil||this.fila<fil)
+                return getDama(turno);
+        }
+        return null;
+    }
+    
+    private String getDama(int turno){
         if(turno==1)
-            return "DB";
-        return "DN";
+            return "|♕|";
+        return "|♛|";
     }
 
     @Override
     public String comer(int fila, int columna, int turno) {
-        return getComverMover(turno);
+        return getComverMover(fila, columna, turno);
     }
 
     @Override
