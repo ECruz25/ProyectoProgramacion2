@@ -6,32 +6,22 @@ import proyectoprogramacion2.Piezas;
  *
  * @author EdwinCruz
  */
-public abstract class Reina extends Piezas{
-    int defaultPosB=51;
-    int defaultPosN=58;
+public class Reina extends Piezas{
+
     @Override
-    public String moverB(int posMover, int posActual){
-        if(posActual!=posMover){
-            
-        }
-        return "♕";
-    }
-    
-    @Override
-    public String comerB(int posMover, int posActual){
-        System.out.println("");
-        return "♕";
-    }
-    
-    @Override
-    public String moverN(int posMover, int posActual){
-        System.out.println("");
-        return "♛";
+    public String mover(int fila, int columna, int turno) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String comerN(int posMover, int posActual){
-        System.out.println("");
-        return "♛";
+    public String comer(int fila, int columna, int turno) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void seleccionar(int fila, int columna) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

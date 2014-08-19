@@ -6,18 +6,26 @@ package proyectoprogramacion2;
  */
 
 public class Alfil extends Piezas{
-    private int fila, columna;
+    private int fila;
+    private int columna;
     @Override
     public String mover(int fil, int col, int turno) {
-        if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
-            return "Al";
-        }
-        return null;
+        return getComerOMover(fil,col,turno);
     }
 
     @Override
     public String comer(int fila, int columna, int turno) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getComerOMover(fila,columna,turno);
+    }
+    
+    private String getComerOMover(int fil, int col, int turno){
+        if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
+            if(turno==1)
+                return "AB";
+            else
+                return "AN";
+        }
+        return null;
     }
 
     @Override

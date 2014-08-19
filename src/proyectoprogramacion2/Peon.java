@@ -6,8 +6,8 @@ package proyectoprogramacion2;
  * @author Edwin Cruz
  */
 public final class Peon extends Piezas{
-    public int fila;
-    public int columna;
+    private int fila;
+    private int columna;
 
     @Override
     public String mover(int fila, int columna, int turno) {
