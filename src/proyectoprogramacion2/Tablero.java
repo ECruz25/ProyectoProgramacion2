@@ -7,24 +7,37 @@ import java.util.Scanner;
  */
 public class Tablero {
     //static Piezas
-        static String tablero[][]=new String[8][8];
-        static Scanner lea=new Scanner(System.in);
-        static Piezas x = new Peon();
-        static int fils, cols, turns;
+    static String tablero[][]=new String[8][8];
+    static Scanner lea=new Scanner(System.in);
+    static int fils, cols, turns;
+    static Piezas alf=new Alfil();
+    static Piezas cab=new Caballo();
+    static Piezas peo=new Peon();
+    static Piezas dam=new Reina();
+    static Piezas rey=new Rey();
+    static Piezas tor=new Torre();
+    static boolean movimientoI;
     public static void main(String[] args) {
             iniciarElTablero();
             imprimirArreglo();
             setTurno1();
-            do {            
-                System.out.print("Ingrese la Fila: ");
-                fils=lea.nextInt();
-                System.out.print("Ingrese la Columna: ");
-                cols=lea.nextInt();
-                seleccionarFicha(fils, cols, getTurno());
-                
-                
-                imprimirArreglo();
-        } while (fils!=-1&&cols!=-1);
+            do {
+                try{
+                    System.out.println("Es el turno del jugador "+getTurno());
+                    System.out.print("Ingrese la Fila: ");
+                    fils=lea.nextInt();
+                    System.out.print("Ingrese la Columna: ");
+                    cols=lea.nextInt();
+                    if (fils==-1&&cols==-1){
+                        System.out.println("La partida ha sido habandonada por el jugador: "+getTurno());
+                        break;
+                    }
+                    seleccionarFicha(fils, cols, getTurno());
+                    imprimirArreglo();
+                }catch(Exception e){
+                    System.out.println("las cordenadas ingresadas son incorrectas!");
+                }
+        } while (true);
             
     }
     private static void setTurno1(){
@@ -40,7 +53,7 @@ public class Tablero {
     //Valida si la posicion a donde se quiere mover esta disponible
     //Si en esa posicion esta: |┼| es porque no hay nada y puede mover.
     private static boolean validarDisponibilidad(int fila,int columna){
-        if(tablero[fila][columna].equals("|┼|"))
+        if(tablero[fila][columna].equals("|__|"))
             return true;
         return false;
     }
@@ -94,36 +107,92 @@ public class Tablero {
     }
     
     
-    public static void mover(int fila, int columna, int turno){
+    public static void mover(int fila, int columna, int turno, char tipoFicha){
         boolean obj = validarDisponibilidad(fila, columna);
         if(obj==true){
-           if(x.mover(fila, columna, turno)!=null)
-            tablero[fila][columna]=x.mover(fila, columna, turno);
-           else
-                System.out.println("movimiento invalido");
-            
+            switch (tipoFicha) {
+                case 'A':
+                    alf.seleccionar(fils, cols);
+                    if(alf.mover(fila, columna, turno)!=null){
+                        tablero[fila][columna]=alf.mover(fila, columna, turno);
+                        movimientoI=false;
+                    }else
+                        movimientoI=true;
+                    break;
+                case 'C':
+                    cab.seleccionar(fils, cols);
+                    if(cab.mover(fila, columna, turno)!=null){
+                        tablero[fila][columna]=cab.mover(fila, columna, turno);
+                        System.out.println("movio el caballo");
+                        movimientoI=false;
+                    }else
+                        movimientoI=true;
+                    break;
+                case 'P':
+                    peo.seleccionar(fils, cols);
+                    if(peo.mover(fila, columna, turno)!=null){
+                        tablero[fila][columna]=peo.mover(fila, columna, turno);
+                        movimientoI=false;
+                    }else
+                        movimientoI=true;
+                    break;
+                case 'D':
+                    dam.seleccionar(fils, cols);
+                    if(dam.mover(fila, columna, turno)!=null){
+                        tablero[fila][columna]=dam.mover(fila, columna, turno);
+                        movimientoI=false;
+                    }else
+                        movimientoI=true;
+                    break;
+                case 'R':
+                    rey.seleccionar(fils, cols);
+                    if(rey.mover(fila, columna, turno)!=null){
+                        tablero[fila][columna]=rey.mover(fila, columna, turno);
+                        movimientoI=false;
+                    }else
+                        movimientoI=true;
+                    break;
+                case 'T':
+                    tor.seleccionar(fils, cols);
+                    if(tor.mover(fila, columna, turno)!=null){
+                        tablero[fila][columna]=tor.mover(fila, columna, turno);
+                        movimientoI=false;
+                    }else
+                        movimientoI=true;
+                    break;
+        }
         }
     }
     
     public static void seleccionarFicha(int fila, int columna, int turno){
-        boolean obj = search(fila, columna);
-        if(obj==false){
-            tablero[fila][columna]="|┼|";
-            System.out.println("Que fila? ");
-            int fil = lea.nextInt();
-            System.out.println("Que columna? ");
-            int col = lea.nextInt();
-            mover(fil, col, turno);
-            validarTurno(fila, columna, turno);
-        }
+        boolean obj = validarDisponibilidad(fila, columna);
+        char colorFicha=tablero[fila][columna].charAt(2);
+        char tipoFicha=tablero[fila][columna].charAt(1);
+        if((colorFicha=='N'&&turno==2)||(colorFicha=='B'&&turno==1)){
+            if(obj==false){
+                do {
+                    System.out.print("Ingrese la Fila a la que lo desea mover: ");
+                    int fil = lea.nextInt();
+                    System.out.print("Ingrese la Columna a la que lo desea mover:");
+                    int col = lea.nextInt();
+                    mover(fil, col, turno,tipoFicha);
+                    if(movimientoI==false)
+                        tablero[fila][columna]="|__|";
+                    else{
+                        System.out.println("Jugador "+getTurno()+" por favor ingrese las cordenadas Correctas");
+                        System.out.println("");
+                    }    
+                } while (movimientoI==true);
+                if(getTurno()==1)
+                    setTurno2();
+                else
+                    setTurno1();
+            }
+        }else
+            System.out.println("Es el turno del otro jugador!");
     }
     
-    public static boolean validarTurno(int fila, int columna, int turno){
-        if(turno%2==0&&tablero[fila][columna].charAt(1)=='N')
-            return false;
-        return true;
-    }
-      //Busquedad diagonal! utilizada para saber si se puede mover el alfil
+    //Busquedad diagonal! utilizada para saber si se puede mover el alfil
     //si, efrente de el no exsiste ningun objeto!
     //o esa es la intencion xD 
     //revisar los for!!

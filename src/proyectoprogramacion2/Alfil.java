@@ -10,7 +10,7 @@ public class Alfil extends Piezas{
     private int columna;
     @Override
     public String mover(int fila, int columna, int turno) {
-        return null;
+        return getComerOMover(fila, columna, turno);
     }
 
     @Override
