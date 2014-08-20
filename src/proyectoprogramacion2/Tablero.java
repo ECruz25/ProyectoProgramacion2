@@ -8,53 +8,52 @@ import java.util.Scanner;
 public class Tablero {
     //static Piezas
         static String tablero[][]=new String[8][8];
-        static Piezas x=new Peon();
-        static Peon z = new Peon();
         static Scanner lea=new Scanner(System.in);
     public static void main(String[] args) {
-        
-        INICIAR_ARREGLO();
-        for (int i = 0; i < tablero[1].length; i++) {
-            tablero[1][i]=x.InicializarN();
-        }
-        
-        for (int i = 0; i < tablero[6].length; i++) {
-            tablero[6][i]=x.InicializarB();
-        }
-        
-        IMPRIMIR_ARREGLO();
-        
-        mover(3, 5);
-        
-        IMPRIMIR_ARREGLO();
-        
-        
-        
-        
-       
-////        Reina n=new Reina() {};
-//        
-//        System.out.println(n.moverB(38, 39));
-        
+            iniciarElTablero();
+             imprimirArreglo();
     }
     private static boolean search(int fila,int columna){
-        if(tablero[fila-1][columna-1].equals("|__|")){
+        if(tablero[fila-1][columna-1].equals("|_|")){
             return true;
         }
         return false;
     }
     
     
-    public static void INICIAR_ARREGLO(){
+    public static void iniciarElTablero(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
-                tablero[i][j]="|__|";
+                tablero[i][j]="|_|";
             }
         }
+        for (int i = 0; i < tablero[1].length; i++) {
+            tablero[1][i]="|♟|";        
+        }
+        for (int i = 0; i < tablero[6].length; i++) {
+            tablero[6][i]="|♙|";
+        }
+        tablero[7][0]="|♖|";
+        tablero[7][7]="|♖|";
+        tablero[7][1]="|♘|";
+        tablero[7][6]="|♘|";
+        tablero[7][2]="|♗|";
+        tablero[7][5]="|♗|";
+        tablero[7][3]="|♕|";
+        tablero[7][4]="|♔|";
+        
+        tablero[0][0]="|♜|";
+        tablero[0][7]="|♜|";
+        tablero[0][1]="|♞|";
+        tablero[0][6]="|♞|";
+        tablero[0][2]="|♝|";
+        tablero[0][5]="|♝|";
+        tablero[0][3]="|♛|";
+        tablero[0][4]="|♚|";
     }
     
     
-    public static void IMPRIMIR_ARREGLO(){
+    public static void imprimirArreglo(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
                 System.out.print(tablero[i][j]);
@@ -83,6 +82,35 @@ public class Tablero {
             columna = lea.nextInt();
             mover(fila, columna);
         }
+    }
+      //Busquedad diagonal! utilizada para saber si se puede mover el alfil
+    //si, efrente de el no exsiste ningun objeto!
+    //o esa es la intencion xD 
+    //revisar los for!!
+    private static String busquedadD(int fil1, int fil2, int col1, int col2){
+        if((fil1-fil2)<0&&(col1-col2)>0){
+            for (int i = ++fil1; i < fil2; i++) {
+                if(tablero[i][--col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }else if((fil1-fil2)>0&&(col1-col2)>0){
+            for (int i = ++fil1; i < fil2; i++) {
+                if(tablero[i][++col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }else if((fil1-fil2)>0&&(col1-col2)<0){
+            for (int i = --fil1; i<=fil2; i--) {
+                if(tablero[i][++col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }
+        else if((fil1-fil2)<0&&(col1-col2)<0){
+            for (int i = ++fil1; i>=fil2; i++) {
+                if(tablero[i][++col1]!="|__|")
+                   return tablero[i][col1];
+            }
+        }
+        return null;
     }
 
 }
