@@ -10,30 +10,39 @@ public class Tablero {
         static String tablero[][]=new String[8][8];
         static Scanner lea=new Scanner(System.in);
         static Piezas x = new Peon();
-        
+        static int fils, cols, turns;
     public static void main(String[] args) {
             iniciarElTablero();
             imprimirArreglo();
-            System.out.print("fila: ");
-            int fils=lea.nextInt();
-            System.out.print("Columna: ");
-            int cols=lea.nextInt();
-            int turnos=1;
-            x.seleccionar(fils, cols);
-            seleccionar(fils, cols,turnos);
-            imprimirArreglo();
+            setTurno1();
+            do {            
+                System.out.print("Ingrese la Fila: ");
+                fils=lea.nextInt();
+                System.out.print("Ingrese la Columna: ");
+                cols=lea.nextInt();
+                seleccionarFicha(fils, cols, getTurno());
+                
+                
+                imprimirArreglo();
+        } while (fils!=-1&&cols!=-1);
+            
+    }
+    private static void setTurno1(){
+        turns=1;
+    }
+    private static void setTurno2(){
+        turns=2;
+    }
+    private static int getTurno(){
+        return turns;
     }
     
-    private static boolean search(int fila,int columna){
-        
-        if(tablero[fila][columna].equals("|┼|")){
-            
+    //Valida si la posicion a donde se quiere mover esta disponible
+    //Si en esa posicion esta: |┼| es porque no hay nada y puede mover.
+    private static boolean validarDisponibilidad(int fila,int columna){
+        if(tablero[fila][columna].equals("|┼|"))
             return true;
-            
-        }
-        
         return false;
-        
     }
     
     public static void iniciarElTablero(){
@@ -77,13 +86,16 @@ public class Tablero {
             }
             System.out.println("");
         }
-        System.out.println("   0   1   2  3   4  5   6  7");
+        for (int i = 0; i < tablero.length; i++) {
+            System.out.print("   "+i);
+        }
+        System.out.println("");
         System.out.println("--------------------------------");
     }
     
     
     public static void mover(int fila, int columna, int turno){
-        boolean obj = search(fila, columna);
+        boolean obj = validarDisponibilidad(fila, columna);
         if(obj==true){
            if(x.mover(fila, columna, turno)!=null)
             tablero[fila][columna]=x.mover(fila, columna, turno);
@@ -93,7 +105,7 @@ public class Tablero {
         }
     }
     
-    public static void seleccionar(int fila, int columna, int turno){
+    public static void seleccionarFicha(int fila, int columna, int turno){
         boolean obj = search(fila, columna);
         if(obj==false){
             tablero[fila][columna]="|┼|";

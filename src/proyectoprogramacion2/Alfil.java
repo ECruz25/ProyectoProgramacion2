@@ -21,9 +21,9 @@ public class Alfil extends Piezas{
     private String getComerOMover(int fil, int col, int turno){
         if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
             if(turno==1)
-                return "|♗|";
+                return "|AB|";
             else
-                return "|♝|";
+                return "|AN|";
         }
         return null;
     }

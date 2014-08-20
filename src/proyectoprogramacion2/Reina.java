@@ -29,8 +29,8 @@ public class Reina extends Piezas{
     
     private String getDama(int turno){
         if(turno==1)
-            return "|♕|";
-        return "|♛|";
+            return "|DB|";
+        return "|DN|";
     }
 
     @Override

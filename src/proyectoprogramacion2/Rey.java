@@ -38,8 +38,8 @@ public class Rey extends Piezas{
     }
     private String getRey(int turno){
         if(turno==1)
-            return "|♔|";
-        return "|♚|";
+            return "|RB|";
+        return "|RN|";
     }
 
     @Override

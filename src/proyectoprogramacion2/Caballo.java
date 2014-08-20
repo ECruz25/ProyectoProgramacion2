@@ -42,8 +42,8 @@ public class Caballo extends Piezas{
     
     private String getCaballo(int turno) {
         if(turno==1)
-            return "|♘|";
-        return "|♞|";
+            return "|CB|";
+        return "|CN|";
     }
    @Override
     public void seleccionar(int fila, int columna) {
