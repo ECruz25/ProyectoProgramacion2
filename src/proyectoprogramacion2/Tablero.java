@@ -24,7 +24,8 @@ public class Tablero {
     public static void iniciarElTablero(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
-                tablero[i][j]="|_|";
+                tablero[i][j]="|┼|";
+                //░
             }
         }
         for (int i = 0; i < tablero[1].length; i++) {
@@ -55,11 +56,13 @@ public class Tablero {
     
     public static void imprimirArreglo(){
         for (int i = 0; i < tablero.length; i++) {
+            System.out.print(i+" ");
             for (int j = 0; j < tablero[i].length; j++) {
                 System.out.print(tablero[i][j]);
             }
             System.out.println("");
         }
+        System.out.println("   0   1   2  3   4  5   6  7");
         System.out.println("--------------------------------");
     }
     
