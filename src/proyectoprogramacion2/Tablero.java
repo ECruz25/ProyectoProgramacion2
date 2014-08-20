@@ -9,12 +9,21 @@ public class Tablero {
     //static Piezas
         static String tablero[][]=new String[8][8];
         static Scanner lea=new Scanner(System.in);
+        static Piezas x = new Peon();
     public static void main(String[] args) {
             iniciarElTablero();
              imprimirArreglo();
+             System.out.print("fila: ");
+             int fils=lea.nextInt();
+             System.out.print("Columna: ");
+             int cols=lea.nextInt();
+             int turnos=1;
+             x.seleccionar(fils, cols);
+             seleccionar(fils, cols,turnos);
+             imprimirArreglo();
     }
     private static boolean search(int fila,int columna){
-        if(tablero[fila-1][columna-1].equals("|_|")){
+        if(tablero[fila][columna].equals("|┼|")){
             return true;
         }
         return false;
@@ -67,23 +76,26 @@ public class Tablero {
     }
     
     
-    public static void mover(int fila, int columna){
+    public static void mover(int fila, int columna, int turno){
         boolean obj = search(fila, columna);
         if(obj==true){
-            //tablero[fila-1][columna-1]=x.InicializarN();
+           if(x.mover(fila, columna, turno)!=null)
+            tablero[fila][columna]=x.mover(fila, columna, turno);
+           else
+                System.out.println("movimiento invalido");
             
         }
     }
     
-    public static void seleccionar(int fila, int columna){
+    public static void seleccionar(int fila, int columna, int turno){
         boolean obj = search(fila, columna);
         if(obj==false){
-            tablero[fila-2][columna-1]="|__|";
+            tablero[fila][columna]="|┼|";
             System.out.println("Que fila? ");
-            fila = lea.nextInt();
+            int fil = lea.nextInt();
             System.out.println("Que columna? ");
-            columna = lea.nextInt();
-            mover(fila, columna);
+            int col = lea.nextInt();
+            mover(fil, col, turno);
         }
     }
       //Busquedad diagonal! utilizada para saber si se puede mover el alfil
