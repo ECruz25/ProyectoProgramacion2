@@ -8,7 +8,7 @@ public class Alfil extends Piezas{
 
     @Override
     public String mover(int fila, int columna, int turno) {
-        
+        return null;
     }
 
     @Override
