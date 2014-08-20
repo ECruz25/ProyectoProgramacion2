@@ -126,6 +126,7 @@ public class Tablero {
                         System.out.println("movio el caballo");
                         movimientoI=false;
                     }else
+                        
                         movimientoI=true;
                     break;
                 case 'P':
