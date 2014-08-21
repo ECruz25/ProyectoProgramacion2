@@ -1,5 +1,6 @@
 package proyectoprogramacion2;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -34,8 +35,12 @@ public class Tablero {
                     }
                     seleccionarFicha(fils, cols, getTurno());
                     imprimirArreglo();
+                }catch(InputMismatchException e){
+                    System.out.println("Ingresaste mal las conrdenadas, repite tu turno.");
+                    lea.next();
                 }catch(Exception e){
                     System.out.println("las cordenadas ingresadas son incorrectas!");
+                    
                 }
         } while (true);
             
@@ -55,7 +60,8 @@ public class Tablero {
     private static boolean validarDisponibilidad(int fila,int columna){
         if(tablero[fila][columna].equals("|__|"))
             return true;
-        return false;
+        else
+            return false;
     }
     
     public static void iniciarElTablero(){
@@ -116,51 +122,56 @@ public class Tablero {
                     if(alf.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=alf.mover(fila, columna, turno);
                         movimientoI=false;
-                    }else
+                    }else{
+                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
-                    break;
+                    }break;
                 case 'C':
                     cab.seleccionar(fils, cols);
                     if(cab.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=cab.mover(fila, columna, turno);
                         System.out.println("movio el caballo");
                         movimientoI=false;
-                    }else
-                        
+                    }else{
+                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
-                    break;
+                    }break;
                 case 'P':
                     peo.seleccionar(fils, cols);
                     if(peo.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=peo.mover(fila, columna, turno);
                         movimientoI=false;
-                    }else
+                    }else{
+                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
-                    break;
+                    }break;
                 case 'D':
                     dam.seleccionar(fils, cols);
                     if(dam.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=dam.mover(fila, columna, turno);
                         movimientoI=false;
-                    }else
+                    }else{
+                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
-                    break;
+                    }break;
                 case 'R':
                     rey.seleccionar(fils, cols);
                     if(rey.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=rey.mover(fila, columna, turno);
                         movimientoI=false;
-                    }else
+                    }else{
+                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
-                    break;
+                    }break;
                 case 'T':
                     tor.seleccionar(fils, cols);
                     if(tor.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=tor.mover(fila, columna, turno);
                         movimientoI=false;
-                    }else
+                    }else{
+                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
-                    break;
+                    }break;
         }
         }
     }
@@ -190,7 +201,7 @@ public class Tablero {
                     setTurno1();
             }
         }else
-            System.out.println("Es el turno del otro jugador!");
+            System.out.println("Existe un error, revise sus coordenadas");
     }
     
     //Busquedad diagonal! utilizada para saber si se puede mover el alfil
