@@ -34,7 +34,7 @@ public class Tablero {
                         break;
                     }
                     seleccionarFicha(fils, cols, getTurno());
-                    imprimirArreglo();
+                    //imprimirArreglo();
                 }catch(InputMismatchException e){
                     System.out.println("Ingresaste mal las conrdenadas, repite tu turno.");
                     lea.next();
@@ -117,8 +117,10 @@ public class Tablero {
     //El parametro del colorFicha es la correspondiente al turno
     public static boolean validarComer(int fil, int col, char colorFicha){
        char colorFichaAComer=tablero[fil][col].charAt(2);
-       if(colorFicha!=colorFichaAComer)
-           return true;
+       if(validarDisponibilidad(fil, col)==false){
+            if(colorFicha!=colorFichaAComer)
+                return true;
+       }
        return false;
     }
     public static void comer(int fila, int columna,int turno,char tipoFicha){
@@ -240,31 +242,32 @@ public class Tablero {
         boolean continuar;
         char colorFicha=tablero[fila][columna].charAt(2);
         char tipoFicha=tablero[fila][columna].charAt(1);
-        if((colorFicha=='N'&&turno==2)||(colorFicha=='B'&&turno==1)){
-            if(obj==false){
+        if((colorFicha=='N'&&turno==2)||(colorFicha=='B'&&turno==1)){//color de la ficha que seleccione corresponda al turno
+            if(obj==false){//valida que la posicion que se selecciono no este vacia!
                 do {
                     continuar=true;
                     System.out.print("Ingrese la Fila a la que lo desea mover: ");
                     int fil = lea.nextInt();
                     System.out.print("Ingrese la Columna a la que lo desea mover:");
                     int col = lea.nextInt();
-//                    if(validarComer(fil, col, colorFicha)){
-//                        comer(fil, col, turno, tipoFicha);
-//                        continuar=false;
-//                        movimientoI=false;
-//                    }
+                    if(validarComer(fil, col, colorFicha)){
+                        comer(fil, col, turno, tipoFicha);
+                        continuar=false;
+                        movimientoI=false;
+                    }
                     if(continuar){
                         if(validarDisponibilidad(fil, col))
                             mover(fil, col, turno,tipoFicha);
                         else{
-                            System.out.println("El movimiento que ingreso es invalido");
                             movimientoI=true;
                         }
                     }
                     if(movimientoI==false){
                         tablero[fila][columna]="|__|";
+                        imprimirArreglo();
                     }else{
                         imprimirArreglo();
+                        System.out.println("El movimiento que ingreso es invalido");
                         System.out.println("Jugador "+getTurno()+" por favor ingrese las cordenadas Correctas");
                         System.out.println("");
                        // seleccionarFicha(fila, columna, turno);
@@ -272,8 +275,10 @@ public class Tablero {
                } while (movimientoI==true);
                cambiarTurno();
             }
-        }else
+        }else{
+            imprimirArreglo();
             System.out.println("Existe un error, revise sus coordenadas");
+        }
     }
     
     private static void cambiarTurno(){
