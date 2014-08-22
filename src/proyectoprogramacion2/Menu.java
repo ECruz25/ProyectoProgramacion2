@@ -23,7 +23,7 @@ public class Menu extends Tablero{
             System.out.println("1. Jugar Ajedrez");
             System.out.println("2. Estadisticas de Juegos");
             System.out.println("3. Salir");
-            System.out.print("Ingrese una opcion");
+            System.out.print("Ingrese una opcion: ");
             opc=lea.nextInt();
             switch (opc) {
                 case 1:
@@ -33,7 +33,7 @@ public class Menu extends Tablero{
                     System.out.println("Estadisticas");
                     break;
                 default:
-                    System.out.println("La opcion es invalida");;
+                    System.out.println("La opcion es invalida ");;
             }
             
         } while (opc!=3);

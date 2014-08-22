@@ -342,13 +342,13 @@ public class Tablero {
             }
         }else if(fil1==fil2&&col1-col2<0){
             for (int i = ++col1; i <col2; i++) {
-                if(!"|__|".equals(tablero[i][col1]))
-                    return tablero[i][col1];
+                if(!"|__|".equals(tablero[fil1][i]))
+                    return tablero[fil1][i];
             }
         }else if(fil1==fil2&&col1-col2>0){
             for (int i = --col1; i >col2; i--) {
-                if(!"|__|".equals(tablero[i][col1]))
-                    return tablero[i][col1];
+                if(!"|__|".equals(tablero[fil1][i]))
+                    return tablero[fil1][i];
             }
         }
         return null;
