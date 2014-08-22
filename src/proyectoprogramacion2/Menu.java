@@ -23,6 +23,7 @@ public class Menu extends Tablero{
             System.out.println("1. Jugar Ajedrez");
             System.out.println("2. Estadisticas de Juegos");
             System.out.println("3. Salir");
+            System.out.print("Ingrese una opcion");
             opc=lea.nextInt();
             switch (opc) {
                 case 1:
