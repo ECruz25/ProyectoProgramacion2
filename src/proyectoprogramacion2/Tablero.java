@@ -303,24 +303,25 @@ public class Tablero {
     //revisar los for!!
     //Fil1 y Col1 son los parametros de la seleccion y fil2 y col2 es el destino de a donde se quiere mover
     private static String busquedadD(int fil1, int fil2, int col1, int col2){
+        //borre los iguales para ver si me permite comer
         if((fil1-fil2)<0&&(col1-col2)>0){//Cuadrante tres - +
-            for (int i = ++fil1; i <= fil2; i++) {
+            for (int i = ++fil1; i < fil2; i++) {
                 if(!"|__|".equals(tablero[i][--col1]))
                    return tablero[i][col1];
             }
         }else if((fil1-fil2)>0&&(col1-col2)>0){//cuadrante cuatro + +
-            for (int i = --fil1; i >= fil2; i--) {
+            for (int i = --fil1; i > fil2; i--) {
                 if(!"|__|".equals(tablero[i][--col1]))
                    return tablero[i][col1];
             }
         }else if((fil1-fil2)>0&&(col1-col2)<0){//cuadrante uno + -
-            for (int i = --fil1; i>=fil2; i--) {
+            for (int i = --fil1; i>fil2; i--) {
                 if(!"|__|".equals(tablero[i][++col1]))
                    return tablero[i][col1];
             }
         }
         else if((fil1-fil2)<0&&(col1-col2)<0){//cuadrante dos - -
-            for (int i = ++fil1; i<=fil2; i++) {
+            for (int i = ++fil1; i<fil2; i++) {
                 if(!"|__|".equals(tablero[i][++col1]))
                    return tablero[i][col1];
             }
