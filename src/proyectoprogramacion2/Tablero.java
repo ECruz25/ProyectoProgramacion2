@@ -43,7 +43,6 @@ public class Tablero {
                     
                 }
         } while (true);
-            
     }
     private static void setTurno1(){
         turns=1;
@@ -58,7 +57,6 @@ public class Tablero {
     //Valida si la posicion a donde se quiere mover esta disponible
     //Si en esa posicion esta: |__| es porque no hay nada y puede mover.
     private static boolean validarDisponibilidad(int fila,int columna){
-        
         if(tablero[fila][columna].equals("|__|"))
             return true;
         else
@@ -129,9 +127,11 @@ public class Tablero {
             switch (tipoFicha) {
                 case 'A':
                     alf.seleccionar(fils, cols);
-                    if(alf.comer(fila, columna, turno)!=null){
-                        tablero[fila][columna]=alf.comer(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadD(fils, fila, cols, columna)==null){
+                        if(alf.comer(fila, columna, turno)!=null){
+                            tablero[fila][columna]=alf.comer(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -153,9 +153,11 @@ public class Tablero {
                     }break;
                 case 'D':
                     dam.seleccionar(fils, cols);
-                    if(dam.comer(fila, columna, turno)!=null){
-                        tablero[fila][columna]=dam.comer(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadD(fils, fila, cols, columna)==null){
+                        if(dam.comer(fila, columna, turno)!=null){
+                            tablero[fila][columna]=dam.comer(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -169,9 +171,11 @@ public class Tablero {
                     }break;
                 case 'T':
                     tor.seleccionar(fils, cols);
-                    if(tor.comer(fila, columna, turno)!=null){
-                        tablero[fila][columna]=tor.comer(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadVH(fils, cols, fila, columna)==null){
+                        if(tor.comer(fila, columna, turno)!=null){
+                            tablero[fila][columna]=tor.comer(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -184,9 +188,11 @@ public class Tablero {
             switch (tipoFicha) {
                 case 'A':
                     alf.seleccionar(fils, cols);
-                    if(alf.mover(fila, columna, turno)!=null){
-                        tablero[fila][columna]=alf.mover(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadD(fils, fila, cols, columna)==null){
+                        if(alf.mover(fila, columna, turno)!=null){
+                            tablero[fila][columna]=alf.mover(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -211,9 +217,11 @@ public class Tablero {
                     }break;
                 case 'D':
                     dam.seleccionar(fils, cols);
-                    if(dam.mover(fila, columna, turno)!=null){
-                        tablero[fila][columna]=dam.mover(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadD(fils, fila, cols, columna)==null){
+                        if(dam.mover(fila, columna, turno)!=null){
+                            tablero[fila][columna]=dam.mover(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -227,9 +235,11 @@ public class Tablero {
                     }break;
                 case 'T':
                     tor.seleccionar(fils, cols);
-                    if(tor.mover(fila, columna, turno)!=null){
-                        tablero[fila][columna]=tor.mover(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadVH(fils, cols, fila, columna)==null){
+                        if(tor.mover(fila, columna, turno)!=null){
+                            tablero[fila][columna]=tor.mover(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -253,7 +263,6 @@ public class Tablero {
                     if(validarComer(fil, col, colorFicha)){
                         comer(fil, col, turno, tipoFicha);
                         continuar=false;
-                        movimientoI=false;
                     }
                     if(continuar){
                         if(validarDisponibilidad(fil, col))
@@ -292,27 +301,53 @@ public class Tablero {
     //si, efrente de el no exsiste ningun objeto!
     //o esa es la intencion xD 
     //revisar los for!!
+    //Fil1 y Col1 son los parametros de la seleccion y fil2 y col2 es el destino de a donde se quiere mover
     private static String busquedadD(int fil1, int fil2, int col1, int col2){
-        if((fil1-fil2)<0&&(col1-col2)>0){
-            for (int i = ++fil1; i < fil2; i++) {
-                if(tablero[i][--col1]!="|__|")
+        if((fil1-fil2)<0&&(col1-col2)>0){//Cuadrante tres - +
+            for (int i = ++fil1; i <= fil2; i++) {
+                if(!"|__|".equals(tablero[i][--col1]))
                    return tablero[i][col1];
             }
-        }else if((fil1-fil2)>0&&(col1-col2)>0){
-            for (int i = ++fil1; i < fil2; i++) {
-                if(tablero[i][++col1]!="|__|")
+        }else if((fil1-fil2)>0&&(col1-col2)>0){//cuadrante cuatro + +
+            for (int i = --fil1; i >= fil2; i--) {
+                if(!"|__|".equals(tablero[i][--col1]))
                    return tablero[i][col1];
             }
-        }else if((fil1-fil2)>0&&(col1-col2)<0){
-            for (int i = --fil1; i<=fil2; i--) {
-                if(tablero[i][++col1]!="|__|")
+        }else if((fil1-fil2)>0&&(col1-col2)<0){//cuadrante uno + -
+            for (int i = --fil1; i>=fil2; i--) {
+                if(!"|__|".equals(tablero[i][++col1]))
                    return tablero[i][col1];
             }
         }
-        else if((fil1-fil2)<0&&(col1-col2)<0){
-            for (int i = ++fil1; i>=fil2; i++) {
-                if(tablero[i][++col1]!="|__|")
+        else if((fil1-fil2)<0&&(col1-col2)<0){//cuadrante dos - -
+            for (int i = ++fil1; i<=fil2; i++) {
+                if(!"|__|".equals(tablero[i][++col1]))
                    return tablero[i][col1];
+            }
+        }
+        return null;
+    }
+    
+    public static String busquedadVH(int fil1, int col1, int fil2, int col2){
+        if(col1==col2&&fil1-fil2>0){
+            for (int i = --fil1; i>fil2; i--) {
+                if(!"|__|".equals(tablero[i][col1]))
+                    return tablero[i][col1];
+            }
+        }else if(col1==col2&&fil1-fil2<0){
+            for (int i = ++fil1; i<fil2; i++) {
+                if(!"|__|".equals(tablero[i][col1]))
+                    return tablero[i][col1];
+            }
+        }else if(fil1==fil2&&col1-col2<0){
+            for (int i = ++col1; i <col2; i++) {
+                if(!"|__|".equals(tablero[i][col1]))
+                    return tablero[i][col1];
+            }
+        }else if(fil1==fil2&&col1-col2>0){
+            for (int i = --col1; i >col2; i--) {
+                if(!"|__|".equals(tablero[i][col1]))
+                    return tablero[i][col1];
             }
         }
         return null;
