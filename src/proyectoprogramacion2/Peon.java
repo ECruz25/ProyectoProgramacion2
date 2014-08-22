@@ -16,6 +16,7 @@ public final class Peon extends Piezas{
                 return getPeon(turno);
             else if((this.fila==6&&fila==4)||(this.fila==1&&fila==3))
                 return getPeon(turno);
+            
         }
         return null;
     }

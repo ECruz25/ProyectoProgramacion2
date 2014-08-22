@@ -1,27 +1,40 @@
 package proyectoprogramacion2;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
+import java.util.Scanner;
+import java.util.InputMismatchException;
 /**
  * @author EdwinCruz
  */
-public class Tablero {
+public class Tablero{
     //static Piezas
-    static String tablero[][]=new String[8][8];
-    static Scanner lea=new Scanner(System.in);
-    static int fils, cols, turns;
-    static Piezas alf=new Alfil();
-    static Piezas cab=new Caballo();
-    static Piezas peo=new Peon();
-    static Piezas dam=new Reina();
-    static Piezas rey=new Rey();
-    static Piezas tor=new Torre();
-    static boolean movimientoI=true;
-    public static void main(String[] args) {
-            iniciarElTablero();
-            imprimirArreglo();
-            setTurno1();
+    private final String tablero[][]=new String[8][8];
+    private final Scanner lea=new Scanner(System.in);
+    public  int fils, cols, turns;
+    private boolean juegoTerminado=false;
+    private final Piezas alf=new Alfil();
+    private final Piezas cab=new Caballo();
+    private final Piezas peo=new Peon();
+    private final Piezas dam=new Reina();
+    private final Piezas rey=new Rey();
+    private final Piezas tor=new Torre();
+    private boolean movimientoI=true;
+   
+    private void setTurno1(){
+        turns=1;
+    }
+    private void setTurno2(){
+        turns=2;
+    }
+    private  int getTurno(){
+        return turns;
+    }
+    
+    public void jugarAjedrez(){
+        iniciarElTablero();
+        imprimirArreglo();
+        int aband;
+        setTurno1();
             do {
                 try{
                     System.out.println("Es el turno del jugador "+getTurno());
@@ -30,11 +43,19 @@ public class Tablero {
                     System.out.print("Ingrese la Columna: ");
                     cols=lea.nextInt();
                     if (fils==-1&&cols==-1){
-                        System.out.println("La partida ha sido habandonada por el jugador: "+getTurno());
-                        break;
+                        System.out.print("Deseas abandonar la partida? 1.Si/2.NO : ");
+                        aband=lea.nextInt();
+                        if(aband==1){
+                            System.out.println("La partida ha sido habandonada por el jugador: "+getTurno());
+                            if(getTurno()==1)
+                                System.out.println("El jugador 1 ha ganado");
+                            else
+                                System.out.println("El jugador 2 ha ganado");
+                                aband=0;
+                            juegoTerminado=true;
+                        }
                     }
                     seleccionarFicha(fils, cols, getTurno());
-                    imprimirArreglo();
                 }catch(InputMismatchException e){
                     System.out.println("Ingresaste mal las conrdenadas, repite tu turno.");
                     lea.next();
@@ -42,30 +63,18 @@ public class Tablero {
                     System.out.println("las cordenadas ingresadas son incorrectas!");
                     
                 }
-        } while (true);
-            
+        } while (juegoTerminado=false);
     }
-    private static void setTurno1(){
-        turns=1;
-    }
-    private static void setTurno2(){
-        turns=2;
-    }
-    private static int getTurno(){
-        return turns;
-    }
-    
     //Valida si la posicion a donde se quiere mover esta disponible
-    //Si en esa posicion esta: |┼| es porque no hay nada y puede mover.
-    private static boolean validarDisponibilidad(int fila,int columna){
-        
+    //Si en esa posicion esta: |__| es porque no hay nada y puede mover.
+    private boolean validarDisponibilidad(int fila,int columna){
         if(tablero[fila][columna].equals("|__|"))
             return true;
         else
             return false;
     }
     
-    public static void iniciarElTablero(){
+    private void iniciarElTablero(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
                 tablero[i][j]="|__|";
@@ -98,7 +107,7 @@ public class Tablero {
     }
     
     
-    public static void imprimirArreglo(){
+    private void imprimirArreglo(){
         for (int i = 0; i < tablero.length; i++) {
             System.out.print(i+" ");
             for (int j = 0; j < tablero[i].length; j++) {
@@ -113,16 +122,88 @@ public class Tablero {
         System.out.println("--------------------------------");
     }
     
-    
-    public static void mover(int fila, int columna, int turno, char tipoFicha){
+    //Los parametro de fil y col corresponden a la fila y la columna donde se quiere mover la ficha
+    //El parametro del colorFicha es la correspondiente al turno
+    private boolean validarComer(int fil, int col, char colorFicha){
+       char colorFichaAComer=tablero[fil][col].charAt(2);
+       if(validarDisponibilidad(fil, col)==false){
+            if(colorFicha!=colorFichaAComer)
+                return true;
+       }
+       return false;
+    }
+    private void comer(int fila, int columna,int turno,char tipoFicha){
+        boolean obj = validarDisponibilidad(fila, columna);
+        if(obj==false){
+            switch (tipoFicha) {
+                case 'A':
+                    alf.seleccionar(fils, cols);
+                    if(busquedadD(fils, fila, cols, columna)==null){
+                        if(alf.comer(fila, columna, turno)!=null){
+                            tablero[fila][columna]=alf.comer(fila, columna, turno);
+                            movimientoI=false;
+                        }
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'C':
+                    cab.seleccionar(fils, cols);
+                    if(cab.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=cab.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'P':
+                    peo.seleccionar(fils, cols);
+                    if(peo.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=peo.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'D':
+                    dam.seleccionar(fils, cols);
+                    if(busquedadD(fils, fila, cols, columna)==null&&busquedadVH(fils, cols, fila, columna)==null){
+                        if(dam.comer(fila, columna, turno)!=null){
+                            tablero[fila][columna]=dam.comer(fila, columna, turno);
+                            movimientoI=false;
+                        }
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'R':
+                    rey.seleccionar(fils, cols);
+                    if(rey.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=rey.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'T':
+                    tor.seleccionar(fils, cols);
+                    if(busquedadVH(fils, cols, fila, columna)==null){
+                        if(tor.comer(fila, columna, turno)!=null){
+                            tablero[fila][columna]=tor.comer(fila, columna, turno);
+                            movimientoI=false;
+                        }
+                    }else{
+                        movimientoI=true;
+                    }break;
+        }
+        }
+    }
+    private void mover(int fila, int columna, int turno, char tipoFicha){
         boolean obj = validarDisponibilidad(fila, columna);
         if(obj==true){
             switch (tipoFicha) {
                 case 'A':
                     alf.seleccionar(fils, cols);
-                    if(alf.mover(fila, columna, turno)!=null){
-                        tablero[fila][columna]=alf.mover(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadD(fils, fila, cols, columna)==null){
+                        if(alf.mover(fila, columna, turno)!=null){
+                            tablero[fila][columna]=alf.mover(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -136,9 +217,6 @@ public class Tablero {
                     }break;
                 case 'P':
                     peo.seleccionar(fils, cols);
-                    //if((fils!=6||fils!=1)&&(fils+1!=fila||fils-1!=fila)){
-                      //  movimientoI=true;
-                    //}else 
                     if(peo.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=peo.mover(fila, columna, turno);
                         movimientoI=false;
@@ -147,9 +225,11 @@ public class Tablero {
                     }break;
                 case 'D':
                     dam.seleccionar(fils, cols);
-                    if(dam.mover(fila, columna, turno)!=null){
-                        tablero[fila][columna]=dam.mover(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadD(fils, fila, cols, columna)==null&&busquedadVH(fils, cols, fila, columna)==null){
+                        if(dam.mover(fila, columna, turno)!=null){
+                            tablero[fila][columna]=dam.mover(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -163,9 +243,11 @@ public class Tablero {
                     }break;
                 case 'T':
                     tor.seleccionar(fils, cols);
-                    if(tor.mover(fila, columna, turno)!=null){
-                        tablero[fila][columna]=tor.mover(fila, columna, turno);
-                        movimientoI=false;
+                    if(busquedadVH(fils, cols, fila, columna)==null){
+                        if(tor.mover(fila, columna, turno)!=null){
+                            tablero[fila][columna]=tor.mover(fila, columna, turno);
+                            movimientoI=false;
+                        }
                     }else{
                         movimientoI=true;
                     }break;
@@ -173,64 +255,108 @@ public class Tablero {
         }
     }
     
-    public static void seleccionarFicha(int fila, int columna, int turno){
+    private void seleccionarFicha(int fila, int columna, int turno){
         boolean obj = validarDisponibilidad(fila, columna);
+        boolean continuar;
         char colorFicha=tablero[fila][columna].charAt(2);
         char tipoFicha=tablero[fila][columna].charAt(1);
-        if((colorFicha=='N'&&turno==2)||(colorFicha=='B'&&turno==1)){
-            if(obj==false){
+        if((colorFicha=='N'&&turno==2)||(colorFicha=='B'&&turno==1)){//color de la ficha que seleccione corresponda al turno
+            if(obj==false){//valida que la posicion que se selecciono no este vacia!
                 do {
+                    continuar=true;
                     System.out.print("Ingrese la Fila a la que lo desea mover: ");
                     int fil = lea.nextInt();
                     System.out.print("Ingrese la Columna a la que lo desea mover:");
                     int col = lea.nextInt();
-                    if(validarDisponibilidad(fil, col))
-                        mover(fil, col, turno,tipoFicha);
-                    else{
-                        System.out.println("La posicion donde desea mover esta ocupada!");
-                        movimientoI=true;
+                    if(validarComer(fil, col, colorFicha)){
+                        comer(fil, col, turno, tipoFicha);
+                        continuar=false;
+                    }
+                    if(continuar){
+                        if(validarDisponibilidad(fil, col))
+                            mover(fil, col, turno,tipoFicha);
+                        else{
+                            movimientoI=true;
+                        }
                     }
                     if(movimientoI==false){
                         tablero[fila][columna]="|__|";
+                        imprimirArreglo();
                     }else{
+                        imprimirArreglo();
+                        System.out.println("El movimiento que ingreso es invalido");
                         System.out.println("Jugador "+getTurno()+" por favor ingrese las cordenadas Correctas");
                         System.out.println("");
+                       // seleccionarFicha(fila, columna, turno);
                     }    
-                } while (movimientoI==true);
-                if(getTurno()==1)
+               } while (movimientoI==true);
+               cambiarTurno();
+            }
+        }else{
+            imprimirArreglo();
+            System.out.println("Existe un error, revise sus coordenadas");
+        }
+    }
+    
+    private void cambiarTurno(){
+        if(getTurno()==1)
                     setTurno2();
                 else
                     setTurno1();
-            }
-        }else
-            System.out.println("Existe un error, revise sus coordenadas");
     }
     
     //Busquedad diagonal! utilizada para saber si se puede mover el alfil
     //si, efrente de el no exsiste ningun objeto!
     //o esa es la intencion xD 
     //revisar los for!!
-    private static String busquedadD(int fil1, int fil2, int col1, int col2){
-        if((fil1-fil2)<0&&(col1-col2)>0){
+    //Fil1 y Col1 son los parametros de la seleccion y fil2 y col2 es el destino de a donde se quiere mover
+    private String busquedadD(int fil1, int fil2, int col1, int col2){
+        //borre los iguales para ver si me permite comer
+        if((fil1-fil2)<0&&(col1-col2)>0){//Cuadrante tres - +
             for (int i = ++fil1; i < fil2; i++) {
-                if(tablero[i][--col1]!="|__|")
+                if(!"|__|".equals(tablero[i][--col1]))
                    return tablero[i][col1];
             }
-        }else if((fil1-fil2)>0&&(col1-col2)>0){
-            for (int i = ++fil1; i < fil2; i++) {
-                if(tablero[i][++col1]!="|__|")
+        }else if((fil1-fil2)>0&&(col1-col2)>0){//cuadrante cuatro + +
+            for (int i = --fil1; i > fil2; i--) {
+                if(!"|__|".equals(tablero[i][--col1]))
                    return tablero[i][col1];
             }
-        }else if((fil1-fil2)>0&&(col1-col2)<0){
-            for (int i = --fil1; i<=fil2; i--) {
-                if(tablero[i][++col1]!="|__|")
+        }else if((fil1-fil2)>0&&(col1-col2)<0){//cuadrante uno + -
+            for (int i = --fil1; i>fil2; i--) {
+                if(!"|__|".equals(tablero[i][++col1]))
                    return tablero[i][col1];
             }
         }
-        else if((fil1-fil2)<0&&(col1-col2)<0){
-            for (int i = ++fil1; i>=fil2; i++) {
-                if(tablero[i][++col1]!="|__|")
+        else if((fil1-fil2)<0&&(col1-col2)<0){//cuadrante dos - -
+            for (int i = ++fil1; i<fil2; i++) {
+                if(!"|__|".equals(tablero[i][++col1]))
                    return tablero[i][col1];
+            }
+        }
+        return null;
+    }
+    
+    private String busquedadVH(int fil1, int col1, int fil2, int col2){
+        if(col1==col2&&fil1-fil2>0){
+            for (int i = --fil1; i>fil2; i--) {
+                if(!"|__|".equals(tablero[i][col1]))
+                    return tablero[i][col1];
+            }
+        }else if(col1==col2&&fil1-fil2<0){
+            for (int i = ++fil1; i<fil2; i++) {
+                if(!"|__|".equals(tablero[i][col1]))
+                    return tablero[i][col1];
+            }
+        }else if(fil1==fil2&&col1-col2<0){
+            for (int i = ++col1; i <col2; i++) {
+                if(!"|__|".equals(tablero[fil1][i]))
+                    return tablero[fil1][i];
+            }
+        }else if(fil1==fil2&&col1-col2>0){
+            for (int i = --col1; i >col2; i--) {
+                if(!"|__|".equals(tablero[fil1][i]))
+                    return tablero[fil1][i];
             }
         }
         return null;
