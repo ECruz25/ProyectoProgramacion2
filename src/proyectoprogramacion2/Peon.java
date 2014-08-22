@@ -12,9 +12,9 @@ public final class Peon extends Piezas{
     @Override
     public String mover(int fila, int columna, int turno) {
         if(this.columna==columna){
-            if((this.fila==6&&fila==4)||(this.fila==1&&fila==3))
+            if((this.fila>=1&&this.fila<=6)&&(this.fila+1==fila||this.fila-1==fila))
                 return getPeon(turno);
-            else if((this.fila>=2&&this.fila<=5)&&(this.fila+1==fila||this.fila-1==fila))
+            else if((this.fila==6&&fila==4)||(this.fila==1&&fila==3))
                 return getPeon(turno);
         }
         return null;
