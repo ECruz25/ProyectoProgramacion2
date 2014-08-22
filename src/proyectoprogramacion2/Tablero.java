@@ -1,27 +1,38 @@
 package proyectoprogramacion2;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
 
+import java.util.Scanner;
+import java.util.InputMismatchException;
 /**
  * @author EdwinCruz
  */
 public class Tablero {
     //static Piezas
-    static String tablero[][]=new String[8][8];
-    static Scanner lea=new Scanner(System.in);
-    static int fils, cols, turns;
-    static Piezas alf=new Alfil();
-    static Piezas cab=new Caballo();
-    static Piezas peo=new Peon();
-    static Piezas dam=new Reina();
-    static Piezas rey=new Rey();
-    static Piezas tor=new Torre();
-    static boolean movimientoI=true;
-    public static void main(String[] args) {
-            iniciarElTablero();
-            imprimirArreglo();
-            setTurno1();
+    private final String tablero[][]=new String[8][8];
+    private final Scanner lea=new Scanner(System.in);
+    public  int fils, cols, turns;
+    private final Piezas alf=new Alfil();
+    private final Piezas cab=new Caballo();
+    private final Piezas peo=new Peon();
+    private final Piezas dam=new Reina();
+    private final Piezas rey=new Rey();
+    private final Piezas tor=new Torre();
+    private boolean movimientoI=true;
+   
+    private void setTurno1(){
+        turns=1;
+    }
+    private void setTurno2(){
+        turns=2;
+    }
+    private  int getTurno(){
+        return turns;
+    }
+    
+    public void jugarAjedrez(){
+        iniciarElTablero();
+        imprimirArreglo();
+        setTurno1();
             do {
                 try{
                     System.out.println("Es el turno del jugador "+getTurno());
@@ -34,7 +45,6 @@ public class Tablero {
                         break;
                     }
                     seleccionarFicha(fils, cols, getTurno());
-                    //imprimirArreglo();
                 }catch(InputMismatchException e){
                     System.out.println("Ingresaste mal las conrdenadas, repite tu turno.");
                     lea.next();
@@ -44,26 +54,16 @@ public class Tablero {
                 }
         } while (true);
     }
-    private static void setTurno1(){
-        turns=1;
-    }
-    private static void setTurno2(){
-        turns=2;
-    }
-    private static int getTurno(){
-        return turns;
-    }
-    
     //Valida si la posicion a donde se quiere mover esta disponible
     //Si en esa posicion esta: |__| es porque no hay nada y puede mover.
-    private static boolean validarDisponibilidad(int fila,int columna){
+    private boolean validarDisponibilidad(int fila,int columna){
         if(tablero[fila][columna].equals("|__|"))
             return true;
         else
             return false;
     }
     
-    public static void iniciarElTablero(){
+    public void iniciarElTablero(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
                 tablero[i][j]="|__|";
@@ -96,7 +96,7 @@ public class Tablero {
     }
     
     
-    public static void imprimirArreglo(){
+    public void imprimirArreglo(){
         for (int i = 0; i < tablero.length; i++) {
             System.out.print(i+" ");
             for (int j = 0; j < tablero[i].length; j++) {
@@ -113,7 +113,7 @@ public class Tablero {
     
     //Los parametro de fil y col corresponden a la fila y la columna donde se quiere mover la ficha
     //El parametro del colorFicha es la correspondiente al turno
-    public static boolean validarComer(int fil, int col, char colorFicha){
+    private boolean validarComer(int fil, int col, char colorFicha){
        char colorFichaAComer=tablero[fil][col].charAt(2);
        if(validarDisponibilidad(fil, col)==false){
             if(colorFicha!=colorFichaAComer)
@@ -121,7 +121,7 @@ public class Tablero {
        }
        return false;
     }
-    public static void comer(int fila, int columna,int turno,char tipoFicha){
+    private void comer(int fila, int columna,int turno,char tipoFicha){
         boolean obj = validarDisponibilidad(fila, columna);
         if(obj==false){
             switch (tipoFicha) {
@@ -182,7 +182,7 @@ public class Tablero {
         }
         }
     }
-    public static void mover(int fila, int columna, int turno, char tipoFicha){
+    private void mover(int fila, int columna, int turno, char tipoFicha){
         boolean obj = validarDisponibilidad(fila, columna);
         if(obj==true){
             switch (tipoFicha) {
@@ -247,7 +247,7 @@ public class Tablero {
         }
     }
     
-    public static void seleccionarFicha(int fila, int columna, int turno){
+    private void seleccionarFicha(int fila, int columna, int turno){
         boolean obj = validarDisponibilidad(fila, columna);
         boolean continuar;
         char colorFicha=tablero[fila][columna].charAt(2);
@@ -290,7 +290,7 @@ public class Tablero {
         }
     }
     
-    private static void cambiarTurno(){
+    private void cambiarTurno(){
         if(getTurno()==1)
                     setTurno2();
                 else
@@ -302,7 +302,7 @@ public class Tablero {
     //o esa es la intencion xD 
     //revisar los for!!
     //Fil1 y Col1 son los parametros de la seleccion y fil2 y col2 es el destino de a donde se quiere mover
-    private static String busquedadD(int fil1, int fil2, int col1, int col2){
+    private String busquedadD(int fil1, int fil2, int col1, int col2){
         //borre los iguales para ver si me permite comer
         if((fil1-fil2)<0&&(col1-col2)>0){//Cuadrante tres - +
             for (int i = ++fil1; i < fil2; i++) {
@@ -329,7 +329,7 @@ public class Tablero {
         return null;
     }
     
-    public static String busquedadVH(int fil1, int col1, int fil2, int col2){
+    private String busquedadVH(int fil1, int col1, int fil2, int col2){
         if(col1==col2&&fil1-fil2>0){
             for (int i = --fil1; i>fil2; i--) {
                 if(!"|__|".equals(tablero[i][col1]))
