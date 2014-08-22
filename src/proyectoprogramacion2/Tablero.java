@@ -56,7 +56,7 @@ public class Tablero {
     }
     
     //Valida si la posicion a donde se quiere mover esta disponible
-    //Si en esa posicion esta: |┼| es porque no hay nada y puede mover.
+    //Si en esa posicion esta: |__| es porque no hay nada y puede mover.
     private static boolean validarDisponibilidad(int fila,int columna){
         
         if(tablero[fila][columna].equals("|__|"))
@@ -113,7 +113,69 @@ public class Tablero {
         System.out.println("--------------------------------");
     }
     
-    
+    //Los parametro de fil y col corresponden a la fila y la columna donde se quiere mover la ficha
+    //El parametro del colorFicha es la correspondiente al turno
+    public static boolean validarComer(int fil, int col, char colorFicha){
+       char colorFichaAComer=tablero[fil][col].charAt(2);
+       if(colorFicha!=colorFichaAComer)
+           return true;
+       return false;
+    }
+    public static void comer(int fila, int columna,int turno,char tipoFicha){
+        boolean obj = validarDisponibilidad(fila, columna);
+        if(obj==false){
+            switch (tipoFicha) {
+                case 'A':
+                    alf.seleccionar(fils, cols);
+                    if(alf.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=alf.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'C':
+                    cab.seleccionar(fils, cols);
+                    if(cab.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=cab.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'P':
+                    peo.seleccionar(fils, cols);
+                    if(peo.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=peo.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'D':
+                    dam.seleccionar(fils, cols);
+                    if(dam.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=dam.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'R':
+                    rey.seleccionar(fils, cols);
+                    if(rey.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=rey.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+                case 'T':
+                    tor.seleccionar(fils, cols);
+                    if(tor.comer(fila, columna, turno)!=null){
+                        tablero[fila][columna]=tor.comer(fila, columna, turno);
+                        movimientoI=false;
+                    }else{
+                        movimientoI=true;
+                    }break;
+        }
+        }
+    }
     public static void mover(int fila, int columna, int turno, char tipoFicha){
         boolean obj = validarDisponibilidad(fila, columna);
         if(obj==true){
@@ -175,35 +237,50 @@ public class Tablero {
     
     public static void seleccionarFicha(int fila, int columna, int turno){
         boolean obj = validarDisponibilidad(fila, columna);
+        boolean continuar;
         char colorFicha=tablero[fila][columna].charAt(2);
         char tipoFicha=tablero[fila][columna].charAt(1);
         if((colorFicha=='N'&&turno==2)||(colorFicha=='B'&&turno==1)){
             if(obj==false){
                 do {
+                    continuar=true;
                     System.out.print("Ingrese la Fila a la que lo desea mover: ");
                     int fil = lea.nextInt();
                     System.out.print("Ingrese la Columna a la que lo desea mover:");
                     int col = lea.nextInt();
-                    if(validarDisponibilidad(fil, col))
-                        mover(fil, col, turno,tipoFicha);
-                    else{
-                        System.out.println("La posicion donde desea mover esta ocupada!");
-                        movimientoI=true;
+//                    if(validarComer(fil, col, colorFicha)){
+//                        comer(fil, col, turno, tipoFicha);
+//                        continuar=false;
+//                        movimientoI=false;
+//                    }
+                    if(continuar){
+                        if(validarDisponibilidad(fil, col))
+                            mover(fil, col, turno,tipoFicha);
+                        else{
+                            System.out.println("El movimiento que ingreso es invalido");
+                            movimientoI=true;
+                        }
                     }
                     if(movimientoI==false){
                         tablero[fila][columna]="|__|";
                     }else{
+                        imprimirArreglo();
                         System.out.println("Jugador "+getTurno()+" por favor ingrese las cordenadas Correctas");
                         System.out.println("");
+                       // seleccionarFicha(fila, columna, turno);
                     }    
-                } while (movimientoI==true);
-                if(getTurno()==1)
-                    setTurno2();
-                else
-                    setTurno1();
+               } while (movimientoI==true);
+               cambiarTurno();
             }
         }else
             System.out.println("Existe un error, revise sus coordenadas");
+    }
+    
+    private static void cambiarTurno(){
+        if(getTurno()==1)
+                    setTurno2();
+                else
+                    setTurno1();
     }
     
     //Busquedad diagonal! utilizada para saber si se puede mover el alfil
