@@ -10,11 +10,10 @@ public final class Estadisticas {
     }
 
     public static String getEstadisticas(int x) {
-        if(x==10){
-            estadisticas.get(x);
+        if(x<=10){
             return x + ". " + getEstadisticas(x++);
         }
-        return "";
+        return estadisticas.get(x);
     }
     
     
