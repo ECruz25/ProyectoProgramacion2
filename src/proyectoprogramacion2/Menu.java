@@ -12,12 +12,12 @@ import java.util.Scanner;
  *
  * @author Daniel Perez
  */
-public class Menu extends Tablero{
+public final class Menu extends Tablero{
     
     public static void main(String[] args) {
         Tablero obj=new Tablero();
         Scanner lea = new Scanner(System.in);
-        int opc;
+        int opc, salir=0;
         do {
             System.out.println("Menu Principal");
             System.out.println("1. Jugar Ajedrez");
@@ -32,10 +32,13 @@ public class Menu extends Tablero{
                 case 2:    
                     System.out.println("Estadisticas");
                     break;
+                case 3:
+                    System.out.print("Estas seguro de que quieres salir? 1.Si/2.No : ");
+                    salir=lea.nextInt();
                 default:
                     System.out.println("La opcion es invalida ");;
             }
             
-        } while (opc!=3);
+        } while (salir!=1);
     }
 }

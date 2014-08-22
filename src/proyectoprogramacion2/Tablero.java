@@ -6,11 +6,12 @@ import java.util.InputMismatchException;
 /**
  * @author EdwinCruz
  */
-public class Tablero {
+public class Tablero{
     //static Piezas
     private final String tablero[][]=new String[8][8];
     private final Scanner lea=new Scanner(System.in);
     public  int fils, cols, turns;
+    private boolean juegoTerminado=false;
     private final Piezas alf=new Alfil();
     private final Piezas cab=new Caballo();
     private final Piezas peo=new Peon();
@@ -32,6 +33,7 @@ public class Tablero {
     public void jugarAjedrez(){
         iniciarElTablero();
         imprimirArreglo();
+        int aband;
         setTurno1();
             do {
                 try{
@@ -41,8 +43,17 @@ public class Tablero {
                     System.out.print("Ingrese la Columna: ");
                     cols=lea.nextInt();
                     if (fils==-1&&cols==-1){
-                        System.out.println("La partida ha sido habandonada por el jugador: "+getTurno());
-                        break;
+                        System.out.print("Deseas abandonar la partida? 1.Si/2.NO : ");
+                        aband=lea.nextInt();
+                        if(aband==1){
+                            System.out.println("La partida ha sido habandonada por el jugador: "+getTurno());
+                            if(getTurno()==1)
+                                System.out.println("El jugador 1 ha ganado");
+                            else
+                                System.out.println("El jugador 2 ha ganado");
+                                aband=0;
+                            juegoTerminado=true;
+                        }
                     }
                     seleccionarFicha(fils, cols, getTurno());
                 }catch(InputMismatchException e){
@@ -52,7 +63,7 @@ public class Tablero {
                     System.out.println("las cordenadas ingresadas son incorrectas!");
                     
                 }
-        } while (true);
+        } while (juegoTerminado=false);
     }
     //Valida si la posicion a donde se quiere mover esta disponible
     //Si en esa posicion esta: |__| es porque no hay nada y puede mover.
@@ -63,7 +74,7 @@ public class Tablero {
             return false;
     }
     
-    public void iniciarElTablero(){
+    private void iniciarElTablero(){
         for (int i = 0; i < tablero.length; i++) {
             for (int j = 0; j < tablero[i].length; j++) {
                 tablero[i][j]="|__|";
@@ -96,7 +107,7 @@ public class Tablero {
     }
     
     
-    public void imprimirArreglo(){
+    private void imprimirArreglo(){
         for (int i = 0; i < tablero.length; i++) {
             System.out.print(i+" ");
             for (int j = 0; j < tablero[i].length; j++) {
@@ -153,7 +164,7 @@ public class Tablero {
                     }break;
                 case 'D':
                     dam.seleccionar(fils, cols);
-                    if(busquedadD(fils, fila, cols, columna)==null){
+                    if(busquedadD(fils, fila, cols, columna)==null&&busquedadVH(fils, cols, fila, columna)==null){
                         if(dam.comer(fila, columna, turno)!=null){
                             tablero[fila][columna]=dam.comer(fila, columna, turno);
                             movimientoI=false;
@@ -206,9 +217,6 @@ public class Tablero {
                     }break;
                 case 'P':
                     peo.seleccionar(fils, cols);
-                    //if((fils!=6||fils!=1)&&(fils+1!=fila||fils-1!=fila)){
-                      //  movimientoI=true;
-                    //}else 
                     if(peo.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=peo.mover(fila, columna, turno);
                         movimientoI=false;
@@ -217,7 +225,7 @@ public class Tablero {
                     }break;
                 case 'D':
                     dam.seleccionar(fils, cols);
-                    if(busquedadD(fils, fila, cols, columna)==null){
+                    if(busquedadD(fils, fila, cols, columna)==null&&busquedadVH(fils, cols, fila, columna)==null){
                         if(dam.mover(fila, columna, turno)!=null){
                             tablero[fila][columna]=dam.mover(fila, columna, turno);
                             movimientoI=false;
