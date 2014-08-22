@@ -23,7 +23,7 @@ public class Rey extends Piezas{
          return getComverMover(fila, columna, turno);
     }
     private String getComverMover(int fil, int col, int turno){
-       if((this.fila+1==fil||this.fila-1==fil)&&(this.columna-1==col||this.columna+1==col)){
+       if(((this.fila+1==fil||this.fila-1==fil)&&(this.columna+1==col||this.columna==col||this.columna-1==col))||(this.fila==fil&&(this.columna-1==col||this.columna+1==col))){
             if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
                 return getRey(turno);
             }else if(this.fila==fil){

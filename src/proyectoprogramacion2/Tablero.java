@@ -17,7 +17,7 @@ public class Tablero {
     static Piezas dam=new Reina();
     static Piezas rey=new Rey();
     static Piezas tor=new Torre();
-    static boolean movimientoI;
+    static boolean movimientoI=true;
     public static void main(String[] args) {
             iniciarElTablero();
             imprimirArreglo();
@@ -58,6 +58,7 @@ public class Tablero {
     //Valida si la posicion a donde se quiere mover esta disponible
     //Si en esa posicion esta: |┼| es porque no hay nada y puede mover.
     private static boolean validarDisponibilidad(int fila,int columna){
+        
         if(tablero[fila][columna].equals("|__|"))
             return true;
         else
@@ -123,26 +124,25 @@ public class Tablero {
                         tablero[fila][columna]=alf.mover(fila, columna, turno);
                         movimientoI=false;
                     }else{
-                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
                     }break;
                 case 'C':
                     cab.seleccionar(fils, cols);
                     if(cab.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=cab.mover(fila, columna, turno);
-                        System.out.println("movio el caballo");
                         movimientoI=false;
                     }else{
-                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
                     }break;
                 case 'P':
                     peo.seleccionar(fils, cols);
+                    //if((fils!=6||fils!=1)&&(fils+1!=fila||fils-1!=fila)){
+                      //  movimientoI=true;
+                    //}else 
                     if(peo.mover(fila, columna, turno)!=null){
                         tablero[fila][columna]=peo.mover(fila, columna, turno);
                         movimientoI=false;
                     }else{
-                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
                     }break;
                 case 'D':
@@ -151,7 +151,6 @@ public class Tablero {
                         tablero[fila][columna]=dam.mover(fila, columna, turno);
                         movimientoI=false;
                     }else{
-                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
                     }break;
                 case 'R':
@@ -160,7 +159,6 @@ public class Tablero {
                         tablero[fila][columna]=rey.mover(fila, columna, turno);
                         movimientoI=false;
                     }else{
-                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
                     }break;
                 case 'T':
@@ -169,7 +167,6 @@ public class Tablero {
                         tablero[fila][columna]=tor.mover(fila, columna, turno);
                         movimientoI=false;
                     }else{
-                        System.out.println("Devolvio un nulo la ficha: "+tipoFicha);
                         movimientoI=true;
                     }break;
         }
@@ -187,10 +184,15 @@ public class Tablero {
                     int fil = lea.nextInt();
                     System.out.print("Ingrese la Columna a la que lo desea mover:");
                     int col = lea.nextInt();
-                    mover(fil, col, turno,tipoFicha);
-                    if(movimientoI==false)
-                        tablero[fila][columna]="|__|";
+                    if(validarDisponibilidad(fil, col))
+                        mover(fil, col, turno,tipoFicha);
                     else{
+                        System.out.println("La posicion donde desea mover esta ocupada!");
+                        movimientoI=true;
+                    }
+                    if(movimientoI==false){
+                        tablero[fila][columna]="|__|";
+                    }else{
                         System.out.println("Jugador "+getTurno()+" por favor ingrese las cordenadas Correctas");
                         System.out.println("");
                     }    
