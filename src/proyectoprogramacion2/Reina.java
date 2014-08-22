@@ -6,32 +6,43 @@ import proyectoprogramacion2.Piezas;
  *
  * @author EdwinCruz
  */
-public abstract class Reina extends Piezas{
-    int defaultPosB=51;
-    int defaultPosN=58;
+public class Reina extends Piezas{
+    private int fila;
+    private int columna;
     @Override
-    public String moverB(int posMover, int posActual){
-        if(posActual!=posMover){
-            
+    public String mover(int fila, int columna, int turno) {
+        return getComverMover(fila, columna, turno);
+    }
+    
+    private String getComverMover(int fil, int col, int turno){
+        if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
+            return getDama(turno);
+        }else if(this.fila==fil){
+            if(this.columna>col||this.columna<col)
+                return getDama(turno);
+        }else if(this.columna==col){
+            if(this.fila>fil||this.fila<fil)
+                return getDama(turno);
         }
-        return "♕";
+        return null;
     }
     
-    @Override
-    public String comerB(int posMover, int posActual){
-        System.out.println("");
-        return "♕";
-    }
-    
-    @Override
-    public String moverN(int posMover, int posActual){
-        System.out.println("");
-        return "♛";
+    private String getDama(int turno){
+        if(turno==1)
+            return "|DB|";
+        return "|DN|";
     }
 
     @Override
-    public String comerN(int posMover, int posActual){
-        System.out.println("");
-        return "♛";
+    public String comer(int fila, int columna, int turno) {
+        return getComverMover(fila, columna, turno);
     }
+
+    @Override
+    public void seleccionar(int fila, int columna) {
+        this.fila=fila;
+        this.columna=columna; 
+    }
+    
+    
 }

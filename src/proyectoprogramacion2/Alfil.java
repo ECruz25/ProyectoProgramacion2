@@ -4,39 +4,37 @@ package proyectoprogramacion2;
  *
  * @author EdwinCruz
  */
-public abstract class Alfil extends Piezas{
-    int defaultPosB=31;
-    int defaultPosN=38;
+
+public class Alfil extends Piezas{
+    private int fila;
+    private int columna;
     @Override
-    public String moverB(int posMover, int posActual){
-        if(posMover!=posActual){
-            if(posMover==1){
-                
-            }
-        }
-        return "AB";
-    }
-    
-    @Override
-    public String comerB(int posMover, int posActual){
-        System.out.println("");
-        return "AB";
-    }
-    
-    @Override
-    public String moverN(int posMover, int posActual){
-        System.out.println("");
-        return "AN";
+    public String mover(int fila, int columna, int turno) {
+        return getComerOMover(fila, columna, turno);
     }
 
     @Override
-    public String comerN(int posMover, int posActual){
-        System.out.println("");
-        return "AN";
+    public String comer(int fila, int columna, int turno) {
+        return getComerOMover(fila,columna,turno);
     }
     
-    public void String(int posIMover, int posActual){
-        
+    private String getComerOMover(int fil, int col, int turno){
+        if(Math.abs(fil-this.fila)==Math.abs(col-this.columna)){
+            if(turno==1)
+                return "|AB|";
+            else
+                return "|AN|";
+        }
+        return null;
     }
+
+    @Override
+    public void seleccionar(int fila, int columna) {
+        this.fila=fila;
+        this.columna=columna;
+    }
+    
+   
+    
     
 }

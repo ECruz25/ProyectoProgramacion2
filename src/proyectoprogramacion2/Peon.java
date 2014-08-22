@@ -1,47 +1,53 @@
 
 package proyectoprogramacion2;
 
-import proyectoprogramacion2.Piezas;
-
 /**
  *
  * @author Edwin Cruz
  */
-public class Peon extends Piezas{
-    
+public final class Peon extends Piezas{
+    private int fila;
+    private int columna;
+
     @Override
-    public String moverB(int fila, int columna){
+    public String mover(int fila, int columna, int turno) {
+        if(this.columna==columna){
+            if((this.fila>=1&&this.fila<=6)&&(this.fila+1==fila||this.fila-1==fila))
+                return getPeon(turno);
+            else if((this.fila==6&&fila==4)||(this.fila==1&&fila==3))
+                return getPeon(turno);
+        }
         return null;
     }
     
-    @Override
-    public String comerB(int posMover, int posActual){
-//        if(){
-//            
-//        }
-        System.out.println("");
-        return "PB";
-    }
-    
-    @Override
-    public String moverN(int posMover, int posActual){
-        System.out.println("");
-        return "PN";
+    private String getPeon(int turno){
+        if(turno==1)
+            return "|PB|";
+        return "|PN|";
     }
 
     @Override
-    public String comerN(int posMover, int posActual){
-        System.out.println("");
-        return "PN";
+    public String comer(int fila, int columna, int turno) {
+        if(columna-1==this.columna||columna+1==this.columna){
+            if(turno == 1){
+                if(this.fila>fila){
+                    return "|PB|";
+                }
+            }
+            else{
+                if(this.fila<fila){
+                    return "|PN|";
+                }
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void seleccionar(int fila, int columna) {
+        this.fila=fila;
+        this.columna=columna;
     }
     
-    @Override
-    public String InicializarN(){
-        return "|PN|";
-    }
-    @Override
-    public String InicializarB(){
-        return "|PB|";
-    }
     
 }
