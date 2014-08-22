@@ -4,7 +4,7 @@ package proyectoprogramacion2;
 import java.util.Scanner;
 import java.util.InputMismatchException;
 /**
- * @author EdwinCruz
+ * @author Daniel Perez
  */
 public class Tablero{
     //static Piezas
@@ -141,6 +141,7 @@ public class Tablero{
                     if(busquedadD(fils, fila, cols, columna)==null){
                         if(alf.comer(fila, columna, turno)!=null){
                             tablero[fila][columna]=alf.comer(fila, columna, turno);
+                            System.out.println("El jugador "+turno+" Utilizo un Alfil para comer una ficha del opnente");
                             movimientoI=false;
                         }
                     }else{
@@ -150,6 +151,7 @@ public class Tablero{
                     cab.seleccionar(fils, cols);
                     if(cab.comer(fila, columna, turno)!=null){
                         tablero[fila][columna]=cab.comer(fila, columna, turno);
+                        System.out.println("El jugador "+turno+" Utilizo un Caballo para comer una ficha del opnente");
                         movimientoI=false;
                     }else{
                         movimientoI=true;
@@ -158,6 +160,7 @@ public class Tablero{
                     peo.seleccionar(fils, cols);
                     if(peo.comer(fila, columna, turno)!=null){
                         tablero[fila][columna]=peo.comer(fila, columna, turno);
+                        System.out.println("El jugador "+turno+" Utilizo un Peon para comer una ficha del opnente");
                         movimientoI=false;
                     }else{
                         movimientoI=true;
@@ -167,6 +170,7 @@ public class Tablero{
                     if(busquedadD(fils, fila, cols, columna)==null&&busquedadVH(fils, cols, fila, columna)==null){
                         if(dam.comer(fila, columna, turno)!=null){
                             tablero[fila][columna]=dam.comer(fila, columna, turno);
+                            System.out.println("El jugador "+turno+" Utilizo La Dama para comer una ficha del opnente");
                             movimientoI=false;
                         }
                     }else{
@@ -176,6 +180,7 @@ public class Tablero{
                     rey.seleccionar(fils, cols);
                     if(rey.comer(fila, columna, turno)!=null){
                         tablero[fila][columna]=rey.comer(fila, columna, turno);
+                        System.out.println("El jugador "+turno+" Utilizo al Rey para comer una ficha del opnente");
                         movimientoI=false;
                     }else{
                         movimientoI=true;
@@ -185,6 +190,7 @@ public class Tablero{
                     if(busquedadVH(fils, cols, fila, columna)==null){
                         if(tor.comer(fila, columna, turno)!=null){
                             tablero[fila][columna]=tor.comer(fila, columna, turno);
+                            System.out.println("El jugador "+turno+" Utilizo la Torre para comer una ficha del opnente");
                             movimientoI=false;
                         }
                     }else{
